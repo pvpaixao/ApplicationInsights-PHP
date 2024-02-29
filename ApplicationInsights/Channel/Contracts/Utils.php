@@ -64,19 +64,17 @@ class Utils
         {
             $milliseconds = 0;
         }
-    
-        
-        $ms = fmod($milliseconds, 1000);     
+
+        $ms = round($milliseconds) % 1000;        
         $sec = floor($milliseconds / 1000) % 60;
         $min = floor($milliseconds / (1000 * 60)) % 60;
         $hour = floor($milliseconds / (1000 * 60 * 60)) % 24;
-
-      
+        
         $ms = strlen($ms) == 1 ? '00' . $ms : (strlen($ms) === 2 ? "0" . $ms : $ms);
         $sec = strlen($sec) < 2 ? '0' . $sec : $sec;
         $min = strlen($min) < 2 ? '0' . $min : $min;
         $hour = strlen($hour) < 2 ? '0' . $hour : $hour;
-       
+        
         return $hour . ":" . $min . ":" . $sec . "." . $ms;
     }
     
@@ -87,15 +85,13 @@ class Utils
      */
     public static function returnISOStringForTime($time = null)
     {
-       if ($time === null || $time < 0 || !is_numeric($time)) {
-            // Se $time é nulo, negativo ou não é um número válido, use o tempo atual
+       if ($time == NULL)
+        {
             return gmdate('c') . 'Z';
-        } else {
-            // Garanta que $time é tratado como um número inteiro
-            $timestamp = (int) $time;
-    
-            // Formate o tempo para uma string no formato ISO 8601
-            return gmdate('c', $timestamp) . 'Z';
+        }
+        else
+        {
+            return gmdate('c', round($time)) . 'Z';
         }
     }
     
